@@ -1,14 +1,20 @@
 import yfinance as yf
+import pandas as pd
 
-def download_close_price_data(tickers, start_date, end_date):
-    # downloads the closing price of the selected stock
+# downloads Open, High, Low, Close, Volume data for selected stock(s)
+def download_full_data(ticker, start_date, end_date):
     data = yf.download(
-        tickers=tickers,
+        tickers=ticker,
         start=start_date,
         end=end_date,
         auto_adjust=True,
         progress=False
     )
-    # returns closing column per stock form start_date to end_date
-    prices = data["Close"]
-    return prices
+
+    # Sometimes yfinance returns MultiIndex columns even for one ticker.
+    # This converts:
+    # ('Close', 'CBA.AX') -> 'Close'
+    if isinstance(data.columns, pd.MultiIndex):
+        data.columns = data.columns.get_level_values(0)
+
+    return data

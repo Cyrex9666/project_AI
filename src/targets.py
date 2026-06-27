@@ -1,37 +1,25 @@
 import pandas as pd
 
-# if tomorrows return is positive then 1, else 0
-def convert_return_to_target(tomorrow_return):
-    
-    # incase tomorrow cannot be retrieved since indexing ahead, then return an NA
-    # so that dropna can be used in dataset
-    if pd.isna(tomorrow_return):
-        return pd.NA
-    
-    if tomorrow_return > 0:
-        return 1
-    else:
-        return 0
+def create_direction_target(data):
+
+    # Creates target variable from OHLCV data.
+
+    # For each date:
+    # target = 1 if tomorrow's closing price is higher than today's closing price
+    # target = 0 if tomorrow's closing price is lower than or equal to today's closing price
 
 
+    close = data["Close"]
 
+    # Safety check: if Close is accidentally a DataFrame, convert it to a Series
+    if isinstance(close, pd.DataFrame):
+        close = close.iloc[:, 0]
 
-#   creates the target variable for the model.
-#
-#   for each date
-#   - target = 1 if the stock goes up the next trading day
-#   - target = 0 if the stock goes down or remains the next trading day
+    tomorrow_return = close.pct_change().shift(-1)
 
-def create_direction_target(returns, target_stock):
+    target = (tomorrow_return > 0).astype(int)
 
-    if target_stock not in returns.columns:
-        raise ValueError(f"{target_stock} not found in returns data.")
-
-    # daily return
-    stock_returns = returns[target_stock]
-
-    # target of today is tomorrows price, therefore let tomorrows's return be todays target
-    tomorrow_returns = stock_returns.shift(-1)
-    target = tomorrow_returns.apply(convert_return_to_target)
+    # Final row has no tomorrow, so mark it as NA
+    target[tomorrow_return.isna()] = pd.NA
 
     return target

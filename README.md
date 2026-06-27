@@ -32,7 +32,6 @@ Benchmark:
 - Machine learning model for short-term signal prediction
 - Backtesting and benchmark comparison
 - Explainability using feature importance or SHAP
-- Interactive Streamlit dashboard
 
 # Tech Stack
 

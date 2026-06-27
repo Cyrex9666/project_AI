@@ -12,11 +12,10 @@ def load_raw_prices(file_path):
 #   3. remove columns that are completely empty
 #   4. copy previous known date if no price existed
 
-def clean_prices(prices):
-    prices = prices.sort_index() 
+def clean_market_data(data):
+    data = data.sort_index()
+    data = data[~data.index.duplicated(keep="first")]
+    data = data.dropna(axis=1, how="all")
+    data = data.ffill()
 
-    prices = prices[~prices.index.duplicated(keep="first")]
-    prices = prices.dropna(axis=1, how="all")
-    prices = prices.ffill()
-
-    return prices
+    return data
