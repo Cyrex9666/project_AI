@@ -35,27 +35,27 @@ results_df = run_walk_forward_test(
 )
 
 print_average_results(results_df)
-# # ===========================================================================
-# plot_walk_forward_metric(results_df, metric="accuracy")
-# plot_walk_forward_metric(results_df, metric="macro_f1")
-# plot_average_metric(results_df, metric="macro_f1")
+# ===========================================================================
+plot_walk_forward_metric(results_df, metric="accuracy")
+plot_walk_forward_metric(results_df, metric="macro_f1")
+plot_average_metric(results_df, metric="macro_f1")
 
-# # ---------------------------------------------------------
-# # Parameter stability test
-# # ---------------------------------------------------------
+# ---------------------------------------------------------
+# Parameter stability test
+# ---------------------------------------------------------
 
-# coefficients_df = run_parameter_stability_test(
-#     dataset=dataset,
-#     model=LogisticRegression(max_iter=1000),
-#     model_name="Logistic Regression",
-#     train_window_years=5,
-#     first_test_year=2015,
-#     last_test_year=2025
-# )
+coefficients_df = run_parameter_stability_test(
+    dataset=dataset,
+    model=LogisticRegression(max_iter=1000),
+    model_name="Logistic Regression",
+    train_window_years=5,
+    first_test_year=2015,
+    last_test_year=2025
+)
 
-# print("\nCoefficient Values Over Time:")
-# print(coefficients_df.round(4))
+print("\nCoefficient Values Over Time:")
+print(coefficients_df.round(4))
 
-# print_parameter_stability_summary(coefficients_df)
+print_parameter_stability_summary(coefficients_df)
 
-# plot_parameter_stability(coefficients_df)
+plot_parameter_stability(coefficients_df)
