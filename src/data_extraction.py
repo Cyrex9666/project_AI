@@ -11,9 +11,6 @@ def download_full_data(ticker, start_date, end_date):
         progress=False
     )
 
-    # Sometimes yfinance returns MultiIndex columns even for one ticker.
-    # This converts:
-    # ('Close', 'CBA.AX') -> 'Close'
     if isinstance(data.columns, pd.MultiIndex):
         data.columns = data.columns.get_level_values(0)
 

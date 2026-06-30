@@ -11,11 +11,8 @@ from sklearn.metrics import (
     classification_report,
     confusion_matrix
 )
+# plots the confusion matrix using matplotlib
 def plot_confusion_matrix(results, model_name="Model"):
-    """
-    Plots the confusion matrix using matplotlib.
-    """
-
     display = ConfusionMatrixDisplay(
         confusion_matrix=results["confusion_matrix"],
         display_labels=["Down/Hold", "Up"]
@@ -26,16 +23,8 @@ def plot_confusion_matrix(results, model_name="Model"):
     plt.title(f"{model_name} Confusion Matrix")
     plt.show()
 
-
+# reruns training and plots accuracy, macrof1 etc as a function of time
 def plot_learning_curve(model, X_train, y_train, X_test, y_test, model_name="Model"):
-    """
-    Trains the model on increasing amounts of training data
-    and plots test accuracy and macro F1-score.
-
-    This is useful for seeing whether the model improves
-    as it receives more historical training data.
-    """
-
     train_sizes = np.linspace(0.1, 1.0, 20)
 
     accuracy_scores = []
@@ -75,25 +64,14 @@ def plot_learning_curve(model, X_train, y_train, X_test, y_test, model_name="Mod
     plt.grid(True)
     plt.show()
 
-
+# evaluates a trained binary classification model, 0 = down/stay, 1 = up
 def evaluate_classifier(model, X_test, y_test):
-    """
-    Evaluates a trained binary classification model.
-
-    Class meanings:
-        0 = price does not go up / negative class
-        1 = price goes up / positive class
-
-    Returns:
-        Dictionary containing the model's predictions and metrics.
-    """
-
     y_pred = model.predict(X_test)
 
     metrics = {
         "accuracy": accuracy_score(y_test, y_pred),
 
-        # Macro averages treat classes 0 and 1 equally.
+        # Macro averages treat classes 0 and 1 equally
         "macro_precision": precision_score(
             y_test,
             y_pred,
@@ -126,11 +104,8 @@ def evaluate_classifier(model, X_test, y_test):
 
     return metrics
 
+# prints all evaluation results in a consistent format
 def print_evaluation_results(results, model_name="Model"):
-    """
-    Prints all evaluation results in a consistent format.
-    """
-
     print(f"\n{'=' * 50}")
     print(f"{model_name} Evaluation Results")
     print(f"{'=' * 50}")

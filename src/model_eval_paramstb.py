@@ -6,8 +6,8 @@ from sklearn.preprocessing import StandardScaler
 
 from model_prep import split_features_and_target
 
-# Runs a parameter stability test across walk-forward training windows.
-# Only used for models with coeffs
+# runs a parameter stability test across walk-forward training windows
+# - only used for models with coeffs
 def run_parameter_stability_test(
     dataset,
     model,

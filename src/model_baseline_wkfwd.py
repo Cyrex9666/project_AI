@@ -10,26 +10,20 @@ from model_eval_paramstb import (
     plot_parameter_stability
 )
 
-# prep model data
-target_stock = "CBA.AX"
 
-
-# # ---------------------------------------------------------
-# # Run the walk-forward test
-# # ---------------------------------------------------------
-
-target_stock = "CBA.AX"
+# Run the walk-forward test
+target_stock = "QQQ"
 
 dataset = build_dataset(
     ticker=target_stock,
     start_date="2010-01-01",
     end_date="2026-01-01",
-    feature_set=3
+    feature_set=4
 )
 
 models = {
     "Majority Baseline": DummyClassifier(strategy="most_frequent"),
-    "Logistic Regression": LogisticRegression(max_iter=1000),
+    "Logistic Regression": LogisticRegression(max_iter=1000, C=1),
 }
 
 results_df = run_walk_forward_test(

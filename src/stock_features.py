@@ -423,3 +423,47 @@ def create_stock_features3(data):
     # features["pvt_change"] = calculate_pvt_change(close=close,volume=volume,window=20)
 
     return features
+
+def create_stock_features4(data):
+
+    close = data["Close"]
+    high = data["High"]
+    low = data["Low"]
+    volume = data["Volume"]
+
+    features = pd.DataFrame(index=data.index)
+
+    # momentum / trend direction 
+    features["daily_return"] = calculate_daily_return(close)
+    features["5d_momentum"] = calculate_momentum(close, window=5)
+    features["macd_histogram"] = calculate_macd_histogram(close)
+    #============================================================
+    features["hlc3_ratio"] = calculate_hlc3_ratio(high=high,low=low,close=close,window=20)
+    features["ichimoku_signal"] = calculate_ichimoku_signal(high=high,low=low,close=close)
+    features["hwma_ratio"] = calculate_hwma_ratio(close=close,alpha=0.2,beta=0.1)
+    
+    # features["fwma_ratio"] = calculate_fwma_ratio(close=close,window=13)
+    # features["swma_ratio"] = calculate_swma_ratio(close=close,window=5)
+    # features["tema_ratio"] = calculate_tema_ratio(close=close,window=20)
+    # features["ema_20_ratio"] = calculate_ema_ratio(close=close,window=20)
+    # features["hma_ratio"] = calculate_hma_ratio(close=close,window=20)
+
+    # reversion / extension
+    features["rsi_14"] = calculate_rsi(close, window=14)
+    #============================================================
+    # features["bollinger_percent_b"] = calculate_bollinger_percent_b(close)
+    # features["kama_ratio"] = calculate_kama_ratio(close=close,er_window=10,fast_window=2,slow_window=30)
+
+    # volatility or risk regime
+    features["bollinger_band_width"] = calculate_bollinger_band_width(close)
+    features["daily_range"] = calculate_daily_range(high, low, close)
+    # features["5d_rolling_volatility"] = calculate_rolling_volatility(close, window=5)
+    #============================================================
+
+    # volume / market anticipation
+    features["volume_ratio_20d"] = calculate_volume_ratio(volume, window=20)
+    #============================================================
+    features["pvt_change"] = calculate_pvt_change(close=close,volume=volume,window=20)
+    # features["obv_change"] = calculate_obv_change(close=close,volume=volume,window=20)
+
+    return features
